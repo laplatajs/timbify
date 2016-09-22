@@ -22,6 +22,7 @@ const box = blessed.box({
     height: '50%',
     content: '{center}{cyan-bg}La timba de LaPlataJS{/cyan-bg}{/center}',
     tags: true,
+    padding: 5,
     border: {
         type: 'line'
     },
@@ -56,6 +57,7 @@ function start() {
     const winner = list[getRandom(0, list.length)];
 
     if (speed > 200) {
+        box.style.bg = 'green';
         box.setContent('{center}Tenemos un ganador!!{/center}');
         text.setContent(`${winner.Nombre} ${winner.Apellido}`);
         text.style.bold = true;
