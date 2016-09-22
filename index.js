@@ -1,6 +1,7 @@
 'use strict';
 
 const blessed = require('blessed');
+const contrib = require('blessed-contrib');
 const csvParse = require('csv-parse/lib/sync');
 const fs = require('fs');
 
@@ -15,6 +16,15 @@ const list = csvParse(fs.readFileSync(filepath), {
 const screen = blessed.screen({
     smartCSR: true
 });
+
+const logo = contrib.picture({
+    file: './logo.png',
+    cols: 25,
+    onReady() {
+        screen.render();
+    }
+})
+screen.append(logo);
 
 // Create a box perfectly centered horizontally and vertically.
 const box = blessed.box({
