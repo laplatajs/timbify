@@ -1,9 +1,6 @@
 'use strict';
 
 const blessed = require('blessed');
-const loto = require('./index');
-
-
 const csvParse = require('csv-parse/lib/sync');
 const fs = require('fs');
 
@@ -12,13 +9,12 @@ const filepath = process.argv[2];
 
 const list = csvParse(fs.readFileSync(filepath), { columns: true });
 
-
-
 function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
 let speed = 1;
+
 function start() {
     const winner = list[getRandom(0, list.length)];
 
