@@ -7,7 +7,9 @@ const fs = require('fs');
 if (!process.argv[2]) throw 'dame un archivo csv!!';
 const filepath = process.argv[2];
 
-const list = csvParse(fs.readFileSync(filepath), { columns: true });
+const list = csvParse(fs.readFileSync(filepath), {
+    columns: true
+});
 
 // Create a screen object.
 const screen = blessed.screen({
@@ -36,12 +38,12 @@ const box = blessed.box({
 });
 
 const text = blessed.text({
-  top: 'center',
-  left: 'center',
-  parent: box,
-  style: {
-    bg: 'magenta'
-  }
+    top: 'center',
+    left: 'center',
+    parent: box,
+    style: {
+        bg: 'magenta'
+    }
 });
 
 // Append our box to the screen.
@@ -53,6 +55,7 @@ function getRandom(min, max) {
 
 let speed = 1;
 let block = false;
+
 function start() {
     const winner = list[getRandom(0, list.length)];
 
@@ -75,9 +78,9 @@ function start() {
 }
 
 // If box is focused, handle `enter`/`return` and give us some more content.
-box.key('enter', function (ch, key) {
+box.key('enter', function(ch, key) {
     if (block) return;
-
+    box.style.bg = 'magenta';
     text.setContent('Comenzando sorteo...');
     screen.render();
 
@@ -89,7 +92,7 @@ box.key('enter', function (ch, key) {
 });
 
 // Quit on Escape, q, or Control-C.
-screen.key(['escape', 'q', 'C-c'], function (ch, key) {
+screen.key(['escape', 'q', 'C-c'], function(ch, key) {
     return process.exit(0);
 });
 
