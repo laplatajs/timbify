@@ -58,7 +58,6 @@ const text = blessed.text({
 
 // Append our box to the screen.
 screen.append(box);
-
 function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -67,12 +66,14 @@ let speed = 1;
 let block = false;
 
 function start() {
-    const winner = list[getRandom(0, list.length)];
+    const current = getRandom(0, list.length)
+    const winner = list[current];
 
     if (speed > 200) {
         box.style.bg = 'green';
         box.setContent('{center}Tenemos un ganador!!{/center}');
         text.setContent(`${winner.Nombre} ${winner.Apellido}`);
+        list.splice(current,1)
         text.style.bold = true;
 
         screen.render();
