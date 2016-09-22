@@ -2,6 +2,7 @@
 
 const blessed = require('blessed');
 const csvParse = require('csv-parse/lib/sync');
+const uniq = require('uniq');
 const fs = require('fs');
 
 if (!process.argv[2]) throw 'dame un archivo csv!!';
@@ -15,25 +16,28 @@ function getRandom(min, max) {
 
 let speed = 1;
 
+// remove dupes
+/*console.log('list: ', list.length)
+const dedupeList = uniq(list, (data1, data2) => {
+    return (data1.Nombre.toLowerCase() !== data2.Nombre.toLowerCase() &&
+    data1.Apellido.toLowerCase() !== data2.Apellido.toLowerCase() );
+}, false);
+console.log('dedupeList: ', dedupeList.length)*/
+
 function start() {
+
     const winner = list[getRandom(0, list.length)];
 
-    process.stdout.clearLine();
-    process.stdout.cursorTo(0);
+    if (speed > 300) {
 
-    if (speed > 200) {
-
-        box.setContent( `Tenemos un ganador!!!! =>
-            ${winner.Nombre} ${winner.Apellido}`
-        );
+        //box.setContent( '{center}Tenemos un ganador!!!! =>{/center}' );
+        box.style.bg = 'green';
+        box.setText( `{center}${winner.Nombre} ${winner.Apellido}{/center}` );
         screen.render();
-
         return;
     }
 
-    // process.stdout.write(`${winner.Nombre} ${winner.Apellido}`);
-
-    box.setContent(`${winner.Nombre} ${winner.Apellido}`);
+    box.setText(`{center}${winner.Nombre} ${winner.Apellido}{/center}`);
     screen.render();
     speed = speed + 5;
     setTimeout(start, speed);
@@ -45,54 +49,40 @@ var screen = blessed.screen({
     smartCSR: true
 });
 
-screen.title = 'my window title';
+screen.title = 'La timba de LaPlataJS';
 
 // Create a box perfectly centered horizontally and vertically.
 var box = blessed.box({
     top: 'center',
     left: 'center',
+    align: 'center',
     width: '50%',
     height: '50%',
-    content: 'La timba de LaPlataJS',
+    content: '{center}La timba de LaPlataJS{/center}\n',
     tags: true,
+    padding: 5,
     border: {
         type: 'line'
+    },
+    cursor: {
+        artificial: false
     },
     style: {
         fg: 'white',
         bg: 'magenta',
         border: {
             fg: '#f0f0f0'
-        },
-        hover: {
-            bg: 'green'
         }
     }
 });
 
+
 // Append our box to the screen.
 screen.append(box);
 
-// Add a png icon to the box
-var icon = blessed.image({
-    parent: box,
-    top: 0,
-    left: 0,
-    type: 'overlay',
-    width: 'shrink',
-    height: 'shrink',
-    search: false
-});
-
-// If our box is clicked, change the content.
-/*box.on('click', function (data) {
-    box.setContent('{center}Some different {red-fg}content{/red-fg}.{/center}');
-    screen.render();
-});*/
-
 // If box is focused, handle `enter`/`return` and give us some more content.
 box.key('enter', function (ch, key) {
-    box.setContent('{right}Comenzando sorteo...{/black-fg}.{/right}\n');
+    box.setContent(' {right}Comenzando sorteo...{/black-fg}.{/right}\n');
     //box.setLine(1, 'bar');
     //box.insertLine(1, 'foo');
     start();
