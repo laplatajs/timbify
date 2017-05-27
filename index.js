@@ -23,7 +23,7 @@ const logo = contrib.picture({
     onReady() {
         screen.render();
     }
-})
+});
 screen.append(logo);
 
 // Create a box perfectly centered horizontally and vertically.
@@ -40,7 +40,7 @@ const box = blessed.box({
     },
     style: {
         fg: 'white',
-        bg: 'magenta',
+        bg: 'blue',
         border: {
             fg: '#f0f0f0'
         }
@@ -52,7 +52,8 @@ const text = blessed.text({
     left: 'center',
     parent: box,
     style: {
-        bg: 'magenta'
+        bg: 'blue',
+        fg: 'white'
     }
 });
 
@@ -66,15 +67,14 @@ let speed = 1;
 let block = false;
 
 function start() {
-    const current = getRandom(0, list.length)
+    const current = getRandom(0, list.length);
     const winner = list[current];
 
     if (speed > 200) {
-        box.style.bg = 'green';
+        box.style.bg = 'cyan';
         box.setContent('{center}Tenemos un ganador!!{/center}');
         text.setContent(`${winner.Nombre} ${winner.Apellido}`);
-        list.splice(current,1)
-        text.style.bold = true;
+        list.splice(current, 1);
 
         screen.render();
         speed = 1;
@@ -84,14 +84,14 @@ function start() {
 
     text.setContent(`${winner.Nombre} ${winner.Apellido}`);
     screen.render();
-    speed = speed + 5;
+    speed += 5;
     setTimeout(start, speed);
 }
 
 // If box is focused, handle `enter`/`return` and give us some more content.
-box.key('enter', function(ch, key) {
+box.key('enter', (ch, key) => {
     if (block) return;
-    box.style.bg = 'magenta';
+    box.style.bg = 'blue';
     text.setContent('Comenzando sorteo...');
     screen.render();
 
@@ -103,7 +103,7 @@ box.key('enter', function(ch, key) {
 });
 
 // Quit on Escape, q, or Control-C.
-screen.key(['escape', 'q', 'C-c'], function(ch, key) {
+screen.key(['escape', 'q', 'C-c'], (ch, key) => {
     return process.exit(0);
 });
 
