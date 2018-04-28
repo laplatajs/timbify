@@ -1,5 +1,5 @@
 {
-  "name": "timbify",
+  "name": "@laplatajs/timbify",
   "version": "1.0.0",
   "description": "El timbero de LaPlataJS!",
   "main": "index.js",
